@@ -1,9 +1,9 @@
 typedef struct Flags{
-	int depth;
-	int humanRead;
-	int total;
-	int all;
-	int dflag;
+   int depth;
+   int humanRead;
+   int total;
+   int all;
+   int dflag;
 } Flags;
 
 void InitFlags(Flags *flag);
