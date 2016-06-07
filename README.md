@@ -8,7 +8,7 @@ DiskUsage has four flags in total.
 
 The -a flag will show the diskusage for files as well as directories and if a max depth is not included then it will show all every file in the hierarchy.
 
-The --max-depth=N flag will allow you to specify how many directories deep you wish the du command to print out. [N] being the depth number you specify.
+The -max-depth=N flag will allow you to specify how many directories deep you wish the du command to print out. [N] being the depth number you specify.
 
 The -c flag will include the total disk usage for all files in the hierarchy.
 
