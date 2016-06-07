@@ -17,6 +17,7 @@
 #define MBYTE 1000000.0
 #define MAXPLACE 99.0
 #define MILLP 10.0
+#define MACH 4096
 
 
 
@@ -82,7 +83,7 @@ void PrintHumanDirect(double count) {
 	}
 }
 
-void PrintDirect(char *path, double count, Flags *flag, int deep){
+void PrintDirect(char *path, double count, Flags *flag, int deep) {
 	char *temp = path;
 
 	while (*temp != '\0') {
@@ -161,10 +162,16 @@ double Print(Flags *flag, char *path, int deep, char *bd, struct dirent* fi) {
 	}
 	else if (flag->all && (!flag->dflag || (deep > 0))) {
 		size = buf.st_blocks;
-		printf("%lld\t", buf.st_blocks); 
+		if (buf.st_blksize > MACH) {
+			size = size / 2;
+		}
+		printf("%.0lf\t", size); 
 		strcpy(temp, bd);
 		strcat(temp, fi->d_name);
 		printf("%s\n", temp);
+	}
+	if (buf.st_blksize > MACH && !flag->humanRead) {
+		return buf.st_blocks / 2;
 	}
 	return buf.st_blocks;
 }
@@ -185,7 +192,7 @@ double Execute(char *path, char *build, Flags *flag, int deep) {
 		if (!strcmp(fi->d_name, ".")) {
 			continue;
 		}
-		else if (!strcmp(fi->d_name, "..")) {
+		if (!strcmp(fi->d_name, "..")) {
 			continue;
 		}
 		strcpy(temp, build);
@@ -226,7 +233,7 @@ void ReadCommands(char **args, int argc, Flags *flag) {
 		else if (activated) {
 			temp = args[count];
 			token = strtok(temp, "=");
-			if(token != NULL && !strcmp(token, "--max-depth")) {
+			if(token != NULL && !strcmp(token, "-max-depth")) {
 				activated = 0;
 				token = strtok(NULL, " ");
 				if (token != NULL) {
@@ -271,6 +278,7 @@ int main(int argc, char **argv) {
 		}
 		printf("total\n");
 	}
+	free(flag);
 	return 0;
 
 }
