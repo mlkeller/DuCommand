@@ -1,6 +1,8 @@
 # DuCommand
 Mimics the du command used in terminal
 
+GitHub Link: https://github.com/mlkeller/DuCommand 
+
 To run the DiskUsage program, copy over all the files. 
 Run make with the makefile and it will create an executable named DiskUsage.
 
